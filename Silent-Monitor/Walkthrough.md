@@ -12,7 +12,7 @@ I jumped straight into active scanning with Nmap to see what services were actua
 
 ```bash
 nmap -sC -sV //machine_ip
-
+```
 <img alt="Zrzut ekranu 2026-09-6 o 16 06 15" src="https://github.com/user-attachments/assets/040ee6a5-cdac-42b0-9752-6d6a41ba6194" />
 
 
