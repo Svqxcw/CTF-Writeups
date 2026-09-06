@@ -107,13 +107,12 @@ target=127.0.0.1%0Acat+/etc/passwd
 ```
 <img alt="Zrzut ekranu 2026-09-6 o 16 18 50" src="https://github.com/user-attachments/assets/bea0cae6-d455-468e-a9a6-6a6ddf47f944" />
 <img alt="Zrzut ekranu 2026-09-6 o 16 19 06" src="https://github.com/user-attachments/assets/60a001e1-1391-47c7-bca7-7a22b5440800" />
-<img alt="Zrzut ekranu 2026-09-6 o 16 19 25" src="https://github.com/user-attachments/assets/7d27b3fc-c0be-488a-a744-1e7b077b1956" />
 
 ### 🐚 Achieving Remote Code Execution & Preparing Penelope Listener
 
 The server processed our injected payload and returned the full contents of `/etc/passwd`.
 
-<img alt="Zrzut ekranu 2026-09-6 o 16 20 23" src="https://github.com/user-attachments/assets/628dae32-6a69-4009-a636-712835b8940e" />
+<img alt="Zrzut ekranu 2026-09-6 o 16 19 25" src="https://github.com/user-attachments/assets/7d27b3fc-c0be-488a-a744-1e7b077b1956" />
 
 ### 🛠️ Generating the Reverse Shell Payload
 
