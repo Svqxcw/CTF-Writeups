@@ -1,4 +1,3 @@
-<img width="1208" height="502" alt="image" src="https://github.com/user-attachments/assets/7c994bad-ece0-46c8-b0e0-fdeb769f1a77" />
 <img alt="Zrzut ekranu 2026-09-6 o 16 01 33" src="https://github.com/user-attachments/assets/d23818ff-2343-45ad-9841-8ce3811c91ee" />
 
 ### 📡 Initial Reconnaissance
