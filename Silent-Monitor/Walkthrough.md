@@ -1,4 +1,7 @@
 <img alt="Zrzut ekranu 2026-09-6 o 16 01 33" src="https://github.com/user-attachments/assets/d23818ff-2343-45ad-9841-8ce3811c91ee" />
+<img alt="Zrzut ekranu 2026-09-7 o 14 24 10" src="https://github.com/user-attachments/assets/baa4541c-a8ab-4b8b-95a1-9eda5d082fa9" />
+<img alt="Zrzut ekranu 2026-09-7 o 14 24 35" src="https://github.com/user-attachments/assets/b26759b2-929d-40f8-bfd0-685044ceb1a5" />
+
 
 ### 📡 Initial Reconnaissance
 
