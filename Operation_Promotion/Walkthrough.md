@@ -6,6 +6,8 @@ This section provides the active infrastructure details along with the primary s
 * **Target Machine (RecruitCorp):** `10.114.173.87` 
 * **Objective:** Perform a solo penetration test against RecruitCorp's public-facing portal, fully compromise the target host, and capture all flags.
 <img alt="Zrzut ekranu 2026-09-7 o 11 52 01" src="https://github.com/user-attachments/assets/05e12181-745e-4362-869b-f0ff2912ae8c" />
+<img alt="Zrzut ekranu 2026-09-7 o 14 23 08" src="https://github.com/user-attachments/assets/b0b40a9a-6ef0-4c10-8fb3-7206e0822ebb" />
+<img alt="Zrzut ekranu 2026-09-7 o 14 23 27" src="https://github.com/user-attachments/assets/78de5b7d-bdf9-41ac-9ae9-bba6eb4be1c5" />
 
 ### 🕵️ Passive Reconnaissance & Manual Inspection
 
