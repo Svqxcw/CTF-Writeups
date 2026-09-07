@@ -1,4 +1,4 @@
-<img width="970" height="64" alt="image" src="https://github.com/user-attachments/assets/1e03580d-8f11-4382-8ad6-ea590e15258b" /><img width="1024" height="470" alt="image" src="https://github.com/user-attachments/assets/7fdc7e4d-09a0-4b8b-a6b3-359cdb9b52c4" />### 🎯 Environment Overview & Task Objective
+### 🎯 Environment Overview & Task Objective
 
 This section provides the active infrastructure details along with the primary scope of the assessment:
 
